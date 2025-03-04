@@ -1,0 +1,201 @@
+/* Modal Styles - Separate file for cleaner organization */
+
+/* Modal backdrop and animation */
+.add-link-modal,
+.edit-link-modal,
+.edit-group-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Modal content container */
+.modal-content {
+    background-color: var(--panel-color);
+    padding: 30px;
+    border-radius: 16px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Modal heading with decorative underline */
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--text-color);
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.modal-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* Form inputs styling */
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--text-color);
+    background-color: var(--panel-color);
+    transition: all 0.3s ease;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(14, 75, 241, 0.2);
+    outline: none;
+}
+
+.modal-content textarea {
+    height: 120px;
+    resize: none;
+}
+
+/* Close button (X) styling */
+.close-modal,
+.close-edit-modal,
+.close-edit-group-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--black-light-color);
+    background: var(--panel-color);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.close-modal:hover,
+.close-edit-modal:hover,
+.close-edit-group-modal:hover {
+    color: #ff5555;
+    transform: rotate(90deg);
+}
+
+/* Save buttons with gradient background */
+.save-link-btn,
+.save-edit-link-btn,
+.save-edit-group-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--primary-color), #0b3cc1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(14, 75, 241, 0.3);
+}
+
+.save-link-btn:hover,
+.save-edit-link-btn:hover,
+.save-edit-group-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(14, 75, 241, 0.4);
+}
+
+.save-link-btn:active,
+.save-edit-link-btn:active,
+.save-edit-group-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(14, 75, 241, 0.3);
+}
+
+/* Button click effect class (applied via JS) */
+.button-clicked {
+    transform: scale(0.95);
+}
+
+/* Dark mode adjustments */
+body.dark .modal-content {
+    background-color: var(--panel-color);
+    border: 1px solid var(--border-color);
+}
+
+body.dark .close-modal,
+body.dark .close-edit-modal,
+body.dark .close-edit-group-modal {
+    background: var(--panel-color);
+    border: 1px solid var(--border-color);
+}
+
+body.dark .save-link-btn, 
+body.dark .save-edit-link-btn,
+body.dark .save-edit-group-btn {
+    background: linear-gradient(135deg, var(--primary-color), #1c3fa8);
+}
+
+/* QR Code container styling (if used) */
+#qr-code-container {
+    margin: 25px auto;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 2px dashed var(--primary-color);
+}
+
+body.dark #qr-code-container {
+    background: #2a2b2d;
+}
+
+/* Mobile responsiveness adjustments */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .modal-content h2 {
+        font-size: 20px;
+    }
+    
+    .modal-content input,
+    .modal-content textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

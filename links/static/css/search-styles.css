@@ -1,0 +1,95 @@
+/* Search Bar Enhancements */
+
+/* Enhanced search box */
+.search-box {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.search-box input {
+    padding-right: 45px !important; /* Space for the clear button */
+    transition: all 0.3s ease;
+    background-color: var(--panel-color);
+}
+
+.search-box input:focus {
+    box-shadow: 0 0 0 3px rgba(14, 75, 241, 0.15);
+    border-color: var(--primary-color);
+    width: calc(100% + 50px); /* Expand slightly when focused */
+}
+
+/* Search icon styling */
+.search-box i.uil-search {
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus + i.uil-search {
+    color: var(--primary-color);
+}
+
+/* Clear search button */
+.search-clear {
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.search-clear:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+    color: var(--primary-color);
+}
+
+/* Empty search message */
+.empty-search-message {
+    border: 1px dashed var(--border-color);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Search highlight animations */
+@keyframes highlightFade {
+    0% { background-color: rgba(255, 255, 136, 1); }
+    100% { background-color: rgba(255, 255, 136, 0.5); }
+}
+
+/* Animations for link items during search */
+.link-item.search-match {
+    animation: searchMatch 0.5s ease-out;
+}
+
+@keyframes searchMatch {
+    0% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-box {
+        max-width: 200px;
+    }
+    
+    .search-box input:focus {
+        width: calc(100% + 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    .search-box {
+        max-width: 150px;
+    }
+}
+
+/* Dark mode adjustments */
+body.dark .search-box input {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+}
+
+body.dark .empty-search-message {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark .search-box input:focus {
+    box-shadow: 0 0 0 3px rgba(14, 75, 241, 0.3);
+}

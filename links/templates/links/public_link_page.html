@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }} - Public Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0F1020;
+            --bg-secondary: #1A1E34;
+            --text-primary: #FFFFFF;
+            --text-secondary: #C0C4D6;
+            --accent-color: #4A6CF7;
+            --hover-color: #6B81F9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #121625 100%);
+            padding: 20px;
+        }
+
+        .preview-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .preview-phone {
+            background-color: var(--bg-secondary);
+            border-radius: 40px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 10px 20px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .preview-phone:hover {
+            transform: rotateX(5deg) rotateY(-5deg) scale(1.02);
+        }
+
+        .phone-top-bar {
+            height: 25px;
+            background-color: var(--bg-primary);
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-top-bar::before {
+            content: '';
+            width: 60px;
+            height: 5px;
+            background-color: var(--text-secondary);
+            border-radius: 5px;
+        }
+
+        .phone-content {
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 10px 20px rgba(74, 108, 247, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h4 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .group-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .preview-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .preview-link-item {
+            background-color: var(--accent-color);
+            color: var(--text-primary);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 
+                background-color 0.3s ease, 
+                transform 0.2s ease,
+                box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg, 
+                transparent, 
+                rgba(255,255,255,0.3), 
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+
+        .preview-link-item:hover::before {
+            left: 100%;
+        }
+
+        .preview-link-item:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(74, 108, 247, 0.4);
+        }
+
+        @media (max-width: 400px) {
+            .preview-phone {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-phone">
+            <div class="phone-top-bar"></div>
+            <div class="phone-content">
+                <!-- Profile Photo -->
+                <div class="profile-photo">
+                    <img src="{% static 'images/uitm-logo.jpg' %}" alt="Profile Photo">
+                </div>
+
+                <!-- Group Title and Description -->
+                <h4>{{ group.name }}</h4>
+                <p class="group-description">{{ group.description }}</p>
+
+                <!-- Links -->
+                <div class="preview-links">
+                    {% for link in links %}
+                    <a href="{{ link.url }}" class="preview-link-item" target="_blank" data-link-id="{{ link.id }}">
+                        <span class="preview-link-title">{{ link.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track link clicks
+        document.querySelectorAll('.preview-link-item').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const linkId = this.getAttribute('data-link-id');
+                fetch(`/public/{{ group.id }}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                    body: `link_id=${linkId}`,
+                });
+            });
+        });
+    </script>
+</body>
+</html>

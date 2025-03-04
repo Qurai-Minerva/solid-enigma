@@ -1,0 +1,158 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Neumorphism Signup Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      display: grid;
+      place-items: center;
+      background: #dde1e7;
+      text-align: center;
+    }
+    .content {
+      width: 400px;
+      padding: 50px 40px;
+      background: #dde1e7;
+      border-radius: 15px;
+      box-shadow: -5px -5px 10px #ffffff73,
+                  5px 5px 15px rgba(94, 104, 121, 0.3);
+    }
+    .content .text {
+      font-size: 33px;
+      font-weight: 600;
+      margin-bottom: 35px;
+      color: #595959;
+    }
+    .field {
+      height: 60px;
+      width: 100%;
+      display: flex;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .field input {
+      height: 100%;
+      width: 100%;
+      padding-left: 50px;
+      outline: none;
+      border: none;
+      font-size: 14px;
+      background: #dde1e7;
+      color: #595959;
+      border-radius: 30px;
+      box-shadow: inset 2px 2px 5px #BABECC,
+                  inset -5px -5px 10px #ffffff73;
+    }
+    .field input:focus {
+      box-shadow: inset 1px 1px 2px #BABECC,
+                  inset -1px -1px 2px #ffffff73;
+    }
+    .field span {
+      position: absolute;
+      color: #595959;
+      width: 50px;
+      line-height: 60px;
+    }
+    .field label {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 50px;
+      pointer-events: none;
+      color: #666666;
+      font-size: 14px;
+    }
+    .field input:valid ~ label {
+      opacity: 0;
+    }
+    button {
+      margin: 15px 0;
+      width: 100%;
+      height: 60px;
+      font-size: 20px;
+      line-height: 60px;
+      font-weight: 600;
+      background: #dde1e7;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      color: #595959;
+      box-shadow: 2px 2px 5px #BABECC,
+                 -5px -5px 10px #ffffff73;
+    }
+    button:focus {
+      color: #3498db;
+      box-shadow: inset 2px 2px 5px #BABECC,
+                 inset -5px -5px 10px #ffffff73;
+    }
+    .login-link {
+      margin: 10px 0;
+      color: #595959;
+      font-size: 16px;
+    }
+    .login-link a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="text">Signup Form</div>
+    <form method="POST" action="{% url 'signup' %}">
+      {% csrf_token %}
+      <div class="field">
+        <input type="text" name="fullname" required>
+        <span class="fas fa-user"></span>
+        <label>Full Name</label>
+      </div>
+      <div class="field">
+        <input type="email" name="email" required>
+        <span class="fas fa-envelope"></span>
+        <label>Email</label>
+      </div>
+      <div class="field">
+        <input type="password" name="password" required>
+        <span class="fas fa-lock"></span>
+        <label>Password</label>
+      </div>
+      <div class="field">
+        <input type="password" name="confirm_password" required>
+        <span class="fas fa-lock"></span>
+        <label>Confirm Password</label>
+      </div>
+      </a><button type="submit">Sign Up</button>
+      <div class="login-link">
+        Already have an account?
+        <a href="{% url 'login' %}">Login now</a>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

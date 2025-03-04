@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styleGD.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal-styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard-enhancements.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search-styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/enhanced-preview.css' %}">
+
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>{{ group.name }} - UKKLink</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="{% static 'images/logo.png' %}" alt="">
+            </div>
+            <span class="logo_name">UKKLink</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}">
+                    <i class="uil uil-estate"></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+                <li><a href="{% url 'group_detail' group.id %}">
+                    <i class="uil uil-link"></i>
+                    <span class="link-name">Links</span>
+                </a></li>
+                <li><a href="{% url 'analytics' group.id %}">
+                    <i class="uil uil-chart"></i>
+                    <span class="link-name">Analytics</span>
+                </a></li>
+            </ul>
+
+            <ul class="logout-mode">
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            
+            <img src="{% static 'images/profile.jpg' %}" alt="">
+        </div>
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class="uil uil-tachometer-fast-alt"></i>
+                    <span class="text">
+                        <a href="#" class="edit-group-name">{{ group.name }}</a>
+                    </span>
+                </div>
+
+                <!-- Group Description -->
+                <div class="group-description">
+                    <p>{{ group.description }}</p>
+                </div>
+
+                <!-- Links Section -->
+                <div class="links">
+                    <h3>Links</h3>
+                    <div class="add-link">
+                        <button class="add-link-btn">
+                            <i class="uil uil-plus"></i>
+                            <span>Add Link</span>
+                        </button>
+                    </div>
+
+                    <!-- Link List -->
+                    <div class="link-list" id="link-list">
+                        {% for link in group.links.all %}
+                        <div class="link-item" data-link-id="{{ link.id }}">
+                            <div class="link-icons">
+                                <i class="uil uil-pen edit-link" data-tooltip="Edit Link"></i>
+                                <i class="uil uil-trash-alt delete-link" data-tooltip="Delete Link"></i>
+                                <i class="uil uil-bars drag-handle" data-tooltip="Drag to Reorder"></i>
+                                
+                            </div>
+                            <div class="link-details">
+                                <span class="link-name">{{ link.title }}</span>
+                                <span class="link-url">{{ link.url }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Public Page Preview -->
+<div class="preview-section">
+    <h3>Public Page Preview</h3>
+    <div class="preview-phone">
+        <!-- Phone top notch -->
+        <div class="phone-top-bar"></div>
+        
+        <!-- Status bar -->
+        <div class="phone-status-bar">
+            <span class="status-bar-time">9:41</span>
+            <div class="status-bar-icons">
+                <span class="wifi-icon"></span>
+                <span class="battery-icon"></span>
+            </div>
+        </div>
+        
+        <div class="phone-content">
+            <!-- Logo circle -->
+            <div class="preview-logo-circle">
+                <img src="{% static 'images/uitm-logo.jpg' %}" alt="UITM Logo">
+            </div>
+            
+            <!-- Profile info -->
+            <div class="preview-profile-info">
+                <h4>
+                    {{ group.name }}
+                    <span class="preview-verification-badge"></span>
+                </h4>
+                
+                <!-- Stats -->
+                <div class="preview-stats">
+                    <div class="preview-stat">
+                        <span class="preview-stat-number">{{ group.links.all|length }}</span>
+                        <span class="preview-stat-label">Links</span>
+                    </div>
+                    <div class="preview-stat">
+                        <span class="preview-stat-number">{{ group.visit_count|default:"0" }}</span>
+                        <span class="preview-stat-label">Visits</span>
+                    </div>
+                    <div class="preview-stat">
+                        <span class="preview-stat-number">{{ group.updated_at|date:"M j" }}</span>
+                        <span class="preview-stat-label">Updated</span>
+                    </div>
+                </div>
+                
+                <p>{{ group.description }}</p>
+            </div>
+            
+            <!-- Links -->
+            <div class="preview-links">
+                {% for link in group.links.all %}
+                <a href="{{ link.url }}" class="preview-link-item" target="_blank">
+                    <i class="uil uil-link preview-link-icon"></i>
+                    <span class="preview-link-title">{{ link.title }}</span>
+                </a>
+                {% empty %}
+                <div class="preview-link-item">
+                    <i class="uil uil-plus preview-link-icon"></i>
+                    <span class="preview-link-title">Add your first link</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Footer -->
+            <div class="preview-footer">
+                <p>Powered by <a href="#">UKKLink</a></p>
+            </div>
+        </div>
+        
+        <!-- Home indicator -->
+        <div class="phone-home-indicator"></div>
+        
+        <!-- Side buttons (visual only) -->
+        <div class="preview-phone-buttons"></div>
+    </div>
+</div>
+        </div>
+    </section>
+
+<!-- Add Link Modal -->
+<div class="add-link-modal">
+    <div class="modal-content">
+        <div class="close-modal">×</div>
+        <h2>Add New Link</h2>
+        <input type="text" id="link-title" placeholder="Link Title">
+        <input type="text" id="link-url" placeholder="Link URL">
+        <button class="save-link-btn">Save</button>
+    </div>
+</div>
+
+<!-- Edit Link Modal -->
+<div class="edit-link-modal">
+    <div class="modal-content">
+        <div class="close-edit-modal">×</div>
+        <h2>Edit Link</h2>
+        <input type="text" id="edit-link-title" placeholder="Link Title">
+        <input type="text" id="edit-link-url" placeholder="Link URL">
+        <button class="save-edit-link-btn">Save Changes</button>
+    </div>
+</div>
+
+<!-- Edit Group Modal -->
+<div class="edit-group-modal">
+    <div class="modal-content">
+        <div class="close-edit-group-modal">×</div>
+        <h2>Edit Group</h2>
+        <input type="text" id="edit-group-name" placeholder="Group Name" value="{{ group.name }}">
+        <textarea id="edit-group-description" placeholder="Group Description">{{ group.description }}</textarea>
+        <button class="save-edit-group-btn">Save Changes</button>
+    </div>
+</div>
+
+    <script>
+        const groupId = "{{ group.id }}"; // Pass the group ID to JavaScript
+    </script>
+    <!-- Include SortableJS for drag-and-drop reordering -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="{% static 'js/scriptGD.js' %}"></script>
+    <script src="{% static 'js/dashboard-interactions.js' %}"></script>
+    <script src="{% static 'js/preview-interactions.js' %}"></script>
+    <script src="{% static 'js/modal-interactions.js' %}"></script>
+    <script src="{% static 'js/search-functionality.js' %}"></script>
+
+    
+
+
+</body>
+</html>

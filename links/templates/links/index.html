@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Admin Dashboard Panel</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="images/uitm-logo.jpg" alt="">
+            </div>
+            <span class="logo_name">UKKLink</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="#">
+                    <i class="uil uil-estate"></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+            </ul>
+
+            <!-- Add Link Group Button in Sidebar -->
+            <div class="add-link-group-sidebar">
+                <button class="add-link-group-btn">
+                    <i class="uil uil-plus"></i>
+                    <span class="link-name">Add Link Group</span>
+                </button>
+            </div>
+
+            <ul class="logout-mode">
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            
+            <img src="{% static 'images/profile.jpg' %}" alt="">
+        </div>
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class="uil uil-tachometer-fast-alt"></i>
+                    <span class="text">Dashboard</span>
+                </div>
+
+                <!-- Link Groups Section -->
+                <div class="link-groups">
+                    {% for group in groups %}
+                    <div class="group-item">
+                        <div class="group-icons">
+                            <i class="uil uil-qrcode-scan" title="Show QR Code"></i>
+                            <i class="uil uil-pen edit-group" data-group-id="{{ group.id }}" title="Edit Group"></i>
+                            <i class="uil uil-trash-alt delete-group" data-group-id="{{ group.id }}" title="Delete Group"></i>
+                        </div>
+                        <span class="group-name">{{ group.name }}</span>
+                        <p class="group-description">{{ group.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Add Group Modal -->
+<div class="add-group-modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Add New Group</h2>
+        <input type="text" id="group-name" placeholder="Group Name">
+        <textarea id="group-description" placeholder="Group Description"></textarea>
+        <button class="save-group-btn">Save</button>
+    </div>
+</div>
+
+<!-- Edit Group Modal (Added for completeness) -->
+<div class="edit-group-modal">
+    <div class="modal-content">
+        <span class="close-edit-modal">&times;</span>
+        <h2>Edit Group</h2>
+        <input type="text" id="edit-group-name" placeholder="Group Name">
+        <textarea id="edit-group-description" placeholder="Group Description"></textarea>
+        <button class="save-edit-group-btn">Update</button>
+    </div>
+</div>
+
+<!-- QR Code Modal -->
+<div class="qr-code-modal">
+    <div class="qr-code-content">
+        <span class="close-qr-modal">&times;</span>
+        <h2>Scan QR Code</h2>
+        <div id="qr-code-container"></div>
+    </div>
+</div>
+
+    <!-- Include QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Include Custom Script -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
